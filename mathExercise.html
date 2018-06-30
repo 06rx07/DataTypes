@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <div>
+        <label>Number A:
+            <input id="radio-a" type="radio" name="math-obj" value="a">
+        </label>
+        <input id="num-a" type="text">
+        <label>Number B:
+            <input id="radio-b" type="radio" name="math-obj" value="b">
+        </label>
+        <input id="num-b" type="text">
+    </div>
+    <div>
+        <button onclick="isNumber()">Is Number?</button>
+        <button>Round to Another Input of Digits after Decimal Point</button>
+        <button>Absolute Value</button>
+        <button>Round Up</button>
+        <button>Round Down</button>
+        <button>Round to Closest Integer</button>
+        <button>Max(A, B)</button>
+        <button>Min(A, B)</button>
+    </div>
+    <p id="result"></p>
+
+    <script>
+        function getRadioObj(){
+            const radioObj = [];
+            for(let i = 0; i < radioGroup.length; i++){
+                radioObj.push({ 
+                    checked: radioGroup[i].checked,
+                    value: radioGroup[i].value
+                });
+            }
+            return radioObj;
+        }
+        function isNumber(){
+            const radioObj = getRadioObj()
+            .find(obj => obj.checked);
+            return (radioObj) ? showResult(Number.isNumber(radioObj.value)) : showResult("No Input Selected");
+        }
+        function showResult(text){
+            result.innerHTML = text;
+        }
+        const radioGroup = document.querySelectorAll("input[name='math-obj']");
+        const result = document.querySelector("#result");
+    </script>
+</body>
+
+</html>

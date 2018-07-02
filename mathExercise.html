@@ -19,13 +19,13 @@
     </div>
     <div>
         <button onclick="isNumber()">Is Number?</button>
-        <button>Round to Another Input of Digits after Decimal Point</button>
-        <button>Absolute Value</button>
-        <button>Round Up</button>
-        <button>Round Down</button>
-        <button>Round to Closest Integer</button>
-        <button>Max(A, B)</button>
-        <button>Min(A, B)</button>
+        <button onclick="roundToDigits()">Round to Another Input of Digits Precision</button>
+        <button onclick="absNumber()">Absolute Value</button>
+        <button onclick="roundUp()">Round Up</button>
+        <button onclick="roundDown()">Round Down</button>
+        <button onclick="round()">Round to Closest Integer</button>
+        <button onclick="max()">Max(A, B)</button>
+        <button onclick="min()">Min(A, B)</button>
     </div>
     <p id="result"></p>
 
@@ -35,20 +35,92 @@
             for(let i = 0; i < radioGroup.length; i++){
                 radioObj.push({ 
                     checked: radioGroup[i].checked,
-                    value: radioGroup[i].value
+                    value: inputs[i].value
                 });
             }
             return radioObj;
         }
+        function getCurrentNumber(){
+            const radioObj = getRadioObj().find(obj => obj.checked);
+            if(typeof radioObj === "undefined") {
+                showResult("No Input Selected");
+            } else {
+                const value = new Number(radioObj.value);
+                if(isNaN(value)){
+                    showResult("Not a Number");
+                } else {
+                    return value;
+                }
+            }
+            return undefined;
+        }
+        function getAllNumbers(){
+            const radioObjs = getRadioObj();
+            const valueA = new Number(radioObjs[0].value);
+            const valueB = new Number(radioObjs[1].value);
+            if(!isNaN(valueA) && !isNaN(valueB)){
+                return radioObjs.map((obj) => ({ ...obj, ...{ value: new Number(obj.value) }}));
+            } else {
+                showResult("Please ensure Both A or B are numbers.");
+            }
+            return undefined;
+        }
         function isNumber(){
-            const radioObj = getRadioObj()
-            .find(obj => obj.checked);
-            return (radioObj) ? showResult(Number.isNumber(radioObj.value)) : showResult("No Input Selected");
+            const value = getCurrentNumber();
+            if(typeof value !== "undefined"){ showResult("True"); }
+        }
+        function absNumber(){
+            const value = getCurrentNumber();
+            if(typeof value !== "undefined"){ showResult(Math.abs(value)); }
+        }
+        function roundUp(){
+            const value = getCurrentNumber();
+            if(typeof value !== "undefined"){ showResult(Math.ceil(value)); }
+        }
+        function roundDown(){
+            const value = getCurrentNumber();
+            if(typeof value !== "undefined"){ showResult(Math.floor(value)); }
+        }
+        function round(){
+            const value = getCurrentNumber();
+            if(typeof value !== "undefined"){ showResult(Math.round(value)); }
+        }
+        function roundToDigits(){
+            const values = getAllNumbers();
+            if(typeof values !== "undefined"){
+                const radioObj = values.find(obj => obj.checked);
+                if(typeof radioObj !== "undefined"){
+                    const otherObj = values.find(obj => !obj.checked);
+                    if(isPositiveInt(otherObj.value)){
+                        showResult(radioObj.value.toPrecision(otherObj.value));
+                    } else {
+                        showResult("Need to be positive integer for precision digits");
+                    }
+                } else {
+                    showResult("No Input Selected");
+                }
+            }
+        }
+        function isPositiveInt(number){
+            return (number > 0 && Math.floor(number) == number);
+        }
+        function max(){
+            const values = getAllNumbers();
+            if(typeof values !== "undefined") {
+                showResult(Math.max(values[0].value, values[1].value));
+            }
+        }
+        function min(){
+            const values = getAllNumbers();
+            if(typeof values !== "undefined") {
+                showResult(Math.min(values[0].value, values[1].value));
+            }
         }
         function showResult(text){
             result.innerHTML = text;
         }
         const radioGroup = document.querySelectorAll("input[name='math-obj']");
+        const inputs = document.querySelectorAll("input[type='text']");
         const result = document.querySelector("#result");
     </script>
 </body>

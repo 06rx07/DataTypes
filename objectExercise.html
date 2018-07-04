@@ -61,30 +61,109 @@
             }
         }
 
-        // 假设id和name均不会重复，根据输入name找到对应的id
+        function findNameMatches(nodeArray, value, option) {
+            for (let i = 0; i < nodeArray.length; i++) {
+                if (nodeArray[i] && nodeArray[i][option.tag] === value) {
+                    return nodeArray[i][option.value];
+                }
+            }
+            return null;
+        }
+
+        function separateNodeArray(nodeArray) {
+            var newNodeArray = [];
+            for (let i = 0; i < nodeArray.length; i++) {
+                if (nodeArray[i]) {
+                    if (nodeArray[i].left) {
+                        newNodeArray.push(nodeArray[i].left);
+                    }
+                    if (nodeArray[i].right) {
+                        newNodeArray.push(nodeArray[i].right);
+                    }
+                }
+            }
+            return newNodeArray;
+        }
+
         function findIdByName(name) {
-
+            if (tree.name === name) {
+                return tree.id;
+            } else {
+                var treeNodes = [tree.left, tree.right];
+                var result = null;
+                while (!result) {
+                    result = findNameMatches(treeNodes, name, { tag: 'name', value: 'id' });
+                    treeNodes = separateNodeArray(treeNodes);
+                }
+                return result;
+            }
         }
 
-        // 假设id和name均不会重复，根据输入id找到对应的name
         function findNameById(id) {
-
+            if (tree.id === id) {
+                return tree.name;
+            } else {
+                var treeNodes = [tree.left, tree.right];
+                var result = null;
+                while (!result) {
+                    result = findNameMatches(treeNodes, id, { tag: 'id', value: 'name' });
+                    treeNodes = separateNodeArray(treeNodes);
+                }
+                return result;
+            }
         }
 
-        // 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
+        // test case
+        console.log(findIdByName("Carl")); // => 3
+        console.log(findIdByName("Saber")); // => 12
+        console.log(findNameById(10)); // => "Kai"
+        console.log(findNameById(9)); // => "Candy"
+
+        function DLROrder(root){
+            console.log(root.name);
+            if (root.left) {
+                DLROrder(root.left);
+            }
+            if (root.right) {
+                DLROrder(root.right);
+            }
+        }
         function getListWithDLR() {
-
+            DLROrder(tree);
         }
 
-        // 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
+        function LDROrder(root) {
+            if (root.left) {
+                LDROrder(root.left);
+            }
+            console.log(root.name);
+            if (root.right) {
+                LDROrder(root.right);
+            }
+        }
         function getListWithLDR() {
-
+            LDROrder(tree);
         }
 
-        // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+        function LRDOrder(root){
+            if(root.left){
+                LRDOrder(root.left);
+            }
+            if(root.right){
+                LRDOrder(root.right);
+            }
+            console.log(root.name);
+        }
         function getListWithLRD() {
-
+            LRDOrder(tree);
         }
+
+        console.info("DLR to display name");
+        getListWithDLR();
+        console.info("LDR to display name");
+        getListWithLDR();
+        console.info("LRD to display name");
+        getListWithLRD();
     </script>
 </body>
 

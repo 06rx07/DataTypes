@@ -8,14 +8,13 @@
 
 <body>
     <input id="stack-input" type="text">
-    <p id="stack-cont">栈内容：apple-gt;pear</p>
-    <button id="push-btn">进栈</button>
-    <button id="pop-btn">退栈</button>
-    <button id="font-btn">打印栈顶元素内容</button>
-    <button id="empty-btn">判断栈是否为空</button>
+    <p id="stack-cont">Stack Content：apple-gt;pear</p>
+    <button id="push-btn" onclick="insert()">Insert</button>
+    <button id="pop-btn" onclick="remove()">Delete</button>
+    <button id="font-btn" onclick="front()">Print Top Element (FIFO)</button>
+    <button id="empty-btn" onclick="isEmpty()">Is Stack Empty</button>
 
     <script>
-
         var stack = ["apple", "pear"];
 
     </script>

@@ -8,15 +8,39 @@
 
 <body>
     <input id="stack-input" type="text">
-    <p id="stack-cont">Stack Content：apple-gt;pear</p>
+    <p id="stack-cont">Stack Content：apple&lt;-pear</p>
     <button id="push-btn" onclick="insert()">Insert</button>
     <button id="pop-btn" onclick="remove()">Delete</button>
     <button id="font-btn" onclick="front()">Print Top Element (FIFO)</button>
     <button id="empty-btn" onclick="isEmpty()">Is Stack Empty</button>
 
     <script>
-        var stack = ["apple", "pear"];
-
+        function insert() {
+            if (input.value) {
+                queue.push(input.value);
+            }
+            showResult();
+        }
+        function remove() {
+            if (queue.length) {
+                queue.reverse().pop();
+                queue.reverse();
+            }
+            showResult();
+        }
+        function front() {
+            (queue.length) ? showResult(queue[0]) : showResult('');
+        }
+        function isEmpty() {
+            const isEmpty = (queue.length) ? "False" : "True";
+            showResult(isEmpty);
+        }
+        function showResult(text) {
+            result.innerHTML = text || "Queue Content: ".concat(queue.join('&lt;-'));
+        }
+        var queue = ["apple", "pear"];
+        var input = document.querySelector("#stack-input");
+        var result = document.querySelector("#stack-cont");
     </script>
 </body>
 

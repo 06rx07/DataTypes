@@ -8,15 +8,39 @@
 
 <body>
     <input id="queue-input" type="text">
-    <p id="queue-cont">Queue Content：apple-&gt;pear</p>
+    <p id="queue-cont">Queue Content：apple&lt;-pear</p>
     <button id="in-btn" onclick="insert()">Insert</button>
     <button id="out-btn" onclick="remove()">Delete</button>
     <button id="font-btn" onclick="front()">Print Top ELement (FIFO)</button>
     <button id="empty-btn" onclick="isEmpty()">Is Queue Empty</button>
 
     <script>
+        function insert() {
+            if (input.value) {
+                queue.reverse().unshift(input.value);
+                queue.reverse();
+            }
+            showResult();
+        }
+        function remove() {
+            if (queue.length) {
+                queue.shift();
+            }
+            showResult();
+        }
+        function front() {
+            (queue.length) ? showResult(queue[0]) : showResult('');
+        }
+        function isEmpty() {
+            const isEmpty = (queue.length) ? "False" : "True";
+            showResult(isEmpty);
+        }
+        function showResult(text) {
+            result.innerHTML = text || "Queue Content: ".concat(queue.join('&lt;-'));
+        }
         var queue = ["apple", "pear"];
-        
+        var input = document.querySelector("#queue-input");
+        var result = document.querySelector("#queue-cont");
     </script>
 </body>
 

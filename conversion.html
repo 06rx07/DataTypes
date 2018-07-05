@@ -8,6 +8,41 @@
 
 <body>
     <script>
+        function objToArr(obj) {
+            const result = [];
+            for (let key in obj) {
+                const ele = [key];
+                for (let subject in obj[key]) {
+                    ele.push(obj[key][subject]);
+                }
+                result.push(ele);
+            }
+            return result;
+        }
+        function arrToObj(arr) {
+            const result = {};
+            const array = arr.slice().sort((a, b) => b[2] - a[2]);
+            for (let i = 0; i < array.length; i++) {
+                const keyIndex = array.findIndex(keyEle => keyEle[0] === array[i][2]);
+                if (keyIndex > -1) {
+                    const submenu = { name: array[i][1] };
+                    if (typeof array[keyIndex][1] === 'string') {
+                        array[keyIndex][1] = {
+                            name: array[keyIndex][1],
+                            subMenu: {}
+                        };
+                    }
+                    array[keyIndex][1]['subMenu'][array[i][0]] = submenu;
+                    array[i] = [null, null, null];
+                }
+            }
+            const rootNode = array.filter(ele => ele[2] === -1);
+            for(let node of rootNode){
+                result[node[0]] = node[1];
+            }
+            return result;
+        }
+
         var scoreObject = {
             "Tony": {
                 "Math": 95,
@@ -35,6 +70,10 @@
             [7, "Area1-2-3", 4],
             [8, "Area2-2-1", 6],
         ];
+
+        // test case
+        console.log(objToArr(scoreObject));
+        console.log(arrToObj(menuArr));
     </script>
 </body>
 
